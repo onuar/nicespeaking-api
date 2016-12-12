@@ -1,6 +1,5 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
-from models.phrase import Phrase
 import json
 from bson import ObjectId
 
