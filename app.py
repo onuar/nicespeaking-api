@@ -10,9 +10,9 @@ app = Flask(__name__)
 def add_phrases():
     phrases = get_phrases_coll()
     request_json = request.json["data"]
-    id = phrases.insert_one(request_json).inserted_id
-    print("Object Id: " + str(id))
-    response_json = {"en": request_json["en"], "tr": request_json["tr"], "id": str(id)}
+    item_id = phrases.insert_one(request_json).inserted_id
+    print("Object Id: " + str(item_id))
+    response_json = {"en": request_json["en"], "tr": request_json["tr"], "id": str(item_id)}
     return jsonify({"status": "ok", "data": response_json})
 
 
