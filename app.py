@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from flask_cors import cross_origin
 from pymongo import MongoClient
 import json
 from bson import ObjectId
@@ -6,15 +7,17 @@ from bson import ObjectId
 app = Flask(__name__)
 
 @app.route("/api/add", methods=['POST'])
+@cross_origin()
 def add_phrases():
     phrases = get_phrases_coll()
     requestjson = request.json["data"]
-    data = {"tr":requestjson["tr"],"en":requestjson["en"]}
-    id = phrases.insert_one(data).inserted_id
+    id = phrases.insert_one(requestjson).inserted_id
     print("Object Id: "+str(id))
-    return jsonify({"status":"ok"})
+    responsejson = {"en":requestjson["en"],"tr":requestjson["tr"],"id":str(id)}
+    return jsonify({"status":"ok","data":responsejson})
 
 @app.route("/api/list", methods=['GET'])
+@cross_origin
 def get_all_phrases():
     phrases = get_phrases_coll()
     result = []
